@@ -1,33 +1,35 @@
-const birthday = document.getElementById("birthday");
-const age = document.getElementById("age");
-const prompt = document.getElementById("prompt");
-const timer = document.getElementById("timer");
+const birthdayEl = document.getElementById("birthday");
+const ageEl = document.getElementById("age");
+const promptEl = document.getElementById("prompt");
+const timerEl = document.getElementById("timer");
 const countdown = document.getElementById("countdown");
-const checkIt = document.getElementById("checkIt");
+const checkItEl = document.getElementById("checkIt");
 
-let birthdayTime = 0;
-let ageTime = 0;
+let birthday = 0;
+let age = 0;
 let countDownValue = 0;
-const yearInMiliSec = 31556952000;
+const secInYear = 31536000;
 
-birthday.addEventListener("input", (e) => {
-  birthdayTime = e.target.valueAsNumber;
+birthdayEl.addEventListener("input", (e) => {
+  birthday = e.target.valueAsNumber / 1000;
 });
-age.addEventListener("input", (e) => {
-  ageTime = e.target.value * yearInMiliSec;
+ageEl.addEventListener("input", (e) => {
+  age = e.target.value * secInYear;
 });
-checkIt.addEventListener("click", countDown);
+checkItEl.addEventListener("click", countDown);
 
 function countDown() {
-  if (birthdayTime && ageTime) {
-    countDownValue = ageTime - birthdayTime;
-    prompt.classList.remove("visible");
-    prompt.classList.add("hidden");
-    timer.classList.remove("hidden");
-    timer.classList.add("visible");
+  const now = Date.now() / 1000;
+  if (birthday && age) {
+    countDownValue = age - (now.toFixed(0) - birthday);
+    promptEl.classList.remove("visible");
+    promptEl.classList.add("hidden");
+    timerEl.classList.remove("hidden");
+    timerEl.classList.add("visible");
+    countdown.innerHTML = countDownValue;
     const interval = setInterval(() => {
       countDownValue--;
       countdown.innerHTML = countDownValue;
-    }, 1);
+    }, 1000);
   }
 }
